@@ -7,14 +7,37 @@
         x:Class="warsztat3000.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="warsztat3000">
+        Title="Warsztat 3000"
+        Background="#F3F4F6">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <StackPanel Margin="20" Spacing="10">
+        
+        <TextBlock Text="Zatrudnieni Mechanicy" 
+                   FontSize="24" 
+                   FontWeight="Bold" 
+                   Foreground="#333333"/>
 
+        <ListBox ItemsSource="{Binding Mechanicy}" 
+                 Background="White"
+                 CornerRadius="8"
+                 Padding="10">
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="15" Margin="5">
+                        <TextBlock Text="{Binding Imie}" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock Text="{Binding Nazwisko}" FontWeight="Bold" FontSize="16"/>
+                        <TextBlock Text="|" Foreground="LightGray" FontSize="16"/>
+                        <TextBlock Text="{Binding Specjalizacja}" FontStyle="Italic" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Telefon}" Foreground="#0066CC" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            
+        </ListBox>
+    </StackPanel>
 </Window>

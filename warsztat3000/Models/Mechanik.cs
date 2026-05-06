@@ -13,7 +13,7 @@ namespace warsztat3000.Models
         public string Telefon { get; set; }
         public bool CzyAktywny { get; set; } = true;
 
-        // Relacje
+
         public List<Naprawa> ProwadzoneNaprawy { get; set; }
         public List<ZadanieNaprawy> WykonaneZadania { get; set; }
     }

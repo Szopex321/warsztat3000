@@ -20,7 +20,7 @@ namespace warsztat3000.Models
         public DateTime? PrzewidywanyKoniec { get; set; }
         public DateTime? RzeczywistyKoniec { get; set; }
         public int ProcentUkonczenia { get; set; } = 0;
-        public string Status { get; set; } // np. 'PRZYJĘTE'
+        public string Status { get; set; }
         public string QrToken { get; set; }
         public string UwagiTechniczne { get; set; }
         public DateTime Utworzono { get; set; } = DateTime.Now;
