@@ -14,6 +14,7 @@
         </Grid>
         <ListBox Grid.Row="1" 
                  ItemsSource="{Binding ListaPojazdow}" 
+                 SelectedItem="{Binding WybranyPojazd}" 
                  Background="Transparent" 
                  BorderThickness="0">
             

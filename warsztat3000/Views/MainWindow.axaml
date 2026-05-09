@@ -18,7 +18,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TabControl TabStripPlacement="Left" Margin="0" Padding="15,0,0,0">
+    <TabControl TabStripPlacement="Left" Margin="0" Padding="15,0,0,0" SelectedIndex="{Binding WybranaZakladka}">
         
         <TabControl.Styles>
             
@@ -67,6 +67,12 @@
 
         <TabItem Header="Baza Pojazdów">
             <views:PojazdyView DataContext="{Binding PojazdyVM}" />
+        </TabItem>
+
+        <TabItem Header="Nasi Mechanicy">
+            
+            <views:MechanicyView DataContext="{Binding MechanicyVM}" />
+
         </TabItem>
 
         

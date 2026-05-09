@@ -95,18 +95,43 @@ namespace warsztat3000.ViewModels
             double wykonane = ListaZadan.Count(z => z.CzyWykonane);
             ProcentUkonczenia = (int)Math.Round((wykonane / ListaZadan.Count) * 100);
         }
+        public void ZaladujPojazd(Pojazd wybraneAuto)
+        {
+            using (var db = new WarsztatDbContext())
+            {
+                var aktywna = db.Naprawy
+                    .Include(n => n.Pojazd).ThenInclude(p => p.Klient)
+                    .Include(n => n.MechanikProwadzacy)
+                    .Include(n => n.ZadaniaNaprawy)
+                    .FirstOrDefault(n => n.PojazdId == wybraneAuto.Id && n.Status != "ZAKOŃCZONE");
+
+                ListaZadan.Clear();
+
+                if (aktywna != null)
+                {
+                    AktywnaNaprawa = aktywna;
+                    foreach (var z in aktywna.ZadaniaNaprawy)
+                    {
+                        DodajZadanie(z.NazwaZadania, z.CzyWykonane);
+                    }
+                }
+                else
+                {
+                    var pelneAuto = db.Pojazdy.Include(p => p.Klient).First(p => p.Id == wybraneAuto.Id);
+
+                    AktywnaNaprawa = new Naprawa
+                    {
+                        Pojazd = pelneAuto,
+                        MechanikProwadzacy = null,
+                        Status = "Brak aktywnej naprawy",
+                        ProcentUkonczenia = 0
+                    };
+                }
+
+                PrzeliczProgres();
+            }
+        }
     }
 
-    public class ZadanieViewModel : INotifyPropertyChanged
-    {
-        public string Nazwa { get; set; }
-        private bool _czyWykonane;
-        public bool CzyWykonane
-        {
-            get => _czyWykonane;
-            set { if (_czyWykonane != value) { _czyWykonane = value; PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CzyWykonane))); } }
-        }
-        public ZadanieViewModel(string nazwa, bool czyWykonane) { Nazwa = nazwa; CzyWykonane = czyWykonane; }
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
+
 }
