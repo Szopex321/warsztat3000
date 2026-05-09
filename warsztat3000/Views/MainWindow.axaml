@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+ï»¿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:warsztat3000.ViewModels"
         xmlns:views="using:warsztat3000.Views"
@@ -9,6 +9,8 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Warsztat 3000"
+        Width="1300" Height="800"
+        WindowStartupLocation="CenterScreen"
         Background="#0B0A10"
         Foreground="White">
 
@@ -16,58 +18,61 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <!-- U¿ywamy TabControl, ale uk³adamy zak³adki po lewej stronie -->
-    <TabControl TabStripPlacement="Left" Margin="0">
+    <TabControl TabStripPlacement="Left" Margin="0" Padding="15,0,0,0">
         
         <TabControl.Styles>
-            <!-- Stylizacja bocznego paska zak³adek -->
+            
             <Style Selector="TabItem">
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="Margin" Value="0,5"/>
-                <Setter Property="Padding" Value="20,10"/>
-                <Setter Property="Foreground" Value="LightGray"/>
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="MinHeight" Value="55"/>
+                <Setter Property="MinWidth" Value="240"/>
+                <Setter Property="Margin" Value="0,2,0,2"/>
+                <Setter Property="Padding" Value="25,0,0,0"/>
+                <Setter Property="Foreground" Value="#6B6B7B"/>
                 <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="4,0,0,0"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                
+                <Setter Property="Transitions">
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.2"/>
+                        <BrushTransition Property="Foreground" Duration="0:0:0.2"/>
+                    </Transitions>
+                </Setter>
             </Style>
-            <Style Selector="TabItem:selected">
-                <Setter Property="Foreground" Value="Black"/>
-                <Setter Property="Background" Value="#00FF00"/> <!-- Akcent zielony -->
-            </Style>
-        </TabControl.Styles>
 
-        <!-- ZAK£ADKA 1: NAPRAWA (Na razie dajemy jako pierwsz¹) -->
-        <TabItem Header="? naprawa">
-            <!-- Wstrzykujemy widok naprawy -->
+            <Style Selector="TabItem:pointerover">
+                <Setter Property="Background" Value="#100F16"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Cursor" Value="Hand"/>
+            </Style>
+
+            <Style Selector="TabItem:selected">
+                <Setter Property="Background" Value="#15141E"/>
+                <Setter Property="Foreground" Value="#00FF00"/>
+                <Setter Property="BorderBrush" Value="#00FF00"/>
+            </Style>
+
+            <Style Selector="TabItem:selected /template/ Border#PART_SelectedPipe">
+                <Setter Property="IsVisible" Value="False"/>
+            </Style>
+            
+        </TabControl.Styles>
+        
+        <TabItem Header="ZarzÄ…dzanie NaprawÄ…">
             <views:NaprawaView DataContext="{Binding NaprawaVM}" />
         </TabItem>
 
-        <!-- ZAK£ADKA 2: MECHANICY (Twój stary widok) -->
-        <TabItem Header="? mechanicy">
-            <StackPanel Margin="20" Spacing="10">
-                <TextBlock Text="Zatrudnieni Mechanicy" FontSize="24" FontWeight="Bold" Foreground="#00FF00"/>
-                <ListBox ItemsSource="{Binding Mechanicy}" Background="#15141E" Foreground="White" CornerRadius="8" Padding="10">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Spacing="15" Margin="5">
-                                <TextBlock Text="{Binding Imie}" FontWeight="Bold" FontSize="16"/>
-                                <TextBlock Text="{Binding Nazwisko}" FontWeight="Bold" FontSize="16"/>
-                                <TextBlock Text="|" Foreground="Gray" FontSize="16"/>
-                                <TextBlock Text="{Binding Specjalizacja}" FontStyle="Italic"/>
-                                <TextBlock Text="{Binding Telefon}" Foreground="#00FF00"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
+        <TabItem Header="Baza PojazdÃ³w">
+            <views:PojazdyView DataContext="{Binding PojazdyVM}" />
         </TabItem>
 
-        <!-- ZAK£ADKA 3: POJAZDY (Pusta na razie) -->
-        <TabItem Header="? pojazdy">
-            <TextBlock Text="Modu³ Pojazdów - W Budowie" Margin="20" FontSize="20"/>
-        </TabItem>
+        
 
-        <!-- ZAK£ADKA 4: HISTORIA (Pusta na razie) -->
-        <TabItem Header="? historia">
-            <TextBlock Text="Modu³ Historii - W Budowie" Margin="20" FontSize="20"/>
+        <TabItem Header="Historia Warsztatu">
+            <views:HistoriaView DataContext="{Binding HistoriaVM}" />
         </TabItem>
 
     </TabControl>

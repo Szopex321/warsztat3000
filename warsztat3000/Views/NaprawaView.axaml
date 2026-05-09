@@ -8,7 +8,6 @@
 
     <Grid RowDefinitions="Auto, Auto, *" Margin="20">
         
-        <!-- Pasek narzędzi (Górne Przyciski) -->
         <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
             <Button Content="✪ nowy pojazd" Background="#00FF00" Foreground="Black" FontWeight="Bold" Margin="0,0,10,0" Padding="15,8"/>
             <Button Content="✪ dodaj naprawę" Background="Transparent" BorderBrush="Gray" BorderThickness="1" Foreground="LightGray" Margin="0,0,10,0" Padding="15,8"/>
@@ -16,16 +15,13 @@
             <Button Content="✪ pokaż kod QR" Background="Transparent" BorderBrush="Gray" BorderThickness="1" Foreground="LightGray" Margin="0,0,10,0" Padding="15,8"/>
         </WrapPanel>
 
-        <!-- Pasek wyszukiwania -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
             <TextBox Watermark="wyszukaj pojazd po rejestracji" Width="300" Background="#15141E" Foreground="White" BorderBrush="Gray"/>
             <Button Content="szukaj" Background="#00FF00" Foreground="Black" FontWeight="Bold" Margin="10,0,0,0"/>
         </StackPanel>
 
-        <!-- Główna siatka zawartości (2x2) -->
         <Grid Grid.Row="2" ColumnDefinitions="*, *" RowDefinitions="*, *">
             
-            <!-- PANEL 1: DANE POJAZDU (Lewy Górny) -->
              <Border Grid.Row="0" Grid.Column="0" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
                 <StackPanel>
                     <TextBlock Text="szczegóły pojazdu" FontSize="18" Margin="0,0,0,15"/>
@@ -35,13 +31,11 @@
                         </Border>
                         
                         <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,5">
-                            <!-- BINDING: Pobieramy Markę i Model z bazy -->
                             <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Marka, StringFormat='marka: {0}'}" FontSize="16"/>
                             <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Model, StringFormat='model: {0}'}" FontSize="16" Margin="0,5,0,0"/>
                         </StackPanel>
                         
                         <StackPanel Grid.Row="1" Grid.Column="1" Margin="0,5">
-                            <!-- BINDING: Pobieramy Rok produkcji i VIN -->
                             <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.RokProdukcji, StringFormat='rok prod.: {0}'}" FontSize="16"/>
                             <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.VIN, StringFormat='VIN: {0}'}" FontSize="16" Margin="0,5,0,0"/>
                         </StackPanel>
@@ -49,70 +43,55 @@
                 </StackPanel>
             </Border>
 
-            <!-- PANEL 2: WŁAŚCICIEL (Prawy Górny) -->
             <Border Grid.Row="0" Grid.Column="1" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
                 <StackPanel>
                     <TextBlock Text="WŁAŚCICIEL" FontSize="12" Foreground="Gray" Margin="0,0,0,15"/>
                     <Grid ColumnDefinitions="Auto, *">
                         <Border Width="50" Height="50" CornerRadius="25" Background="#2A2A35" VerticalAlignment="Top" Margin="0,0,15,0">
-                            <!-- BINDING: Dynamiczne inicjały (np. AZ od Anna Zalewska) -->
                             <TextBlock Text="{Binding InicjalyKlienta}" Foreground="#00FF00" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         
                         <StackPanel Grid.Column="1">
-                            <!-- BINDING: Imię i Nazwisko klienta -->
                             <TextBlock Text="{Binding ImieNazwiskoKlienta}" FontSize="20" FontWeight="Bold"/>
                             <TextBlock Text="zaufany klient" Foreground="Gray" FontSize="12" Margin="0,0,0,15"/>
                             
                             <StackPanel Orientation="Horizontal" Margin="0,2">
                                 <TextBlock Text="☎ " Foreground="Gray"/>
-                                <!-- BINDING: Telefon -->
                                 <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Klient.Telefon}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,2">
                                 <TextBlock Text="✉ " Foreground="Gray"/>
-                                <!-- BINDING: Email -->
                                 <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Klient.Email}"/>
                             </StackPanel>
 
                             <TextBlock Text="MECHANIK PROWADZĄCY" FontSize="10" Foreground="Gray" Margin="0,15,0,2"/>
-                            <!-- BINDING: Imię i nazwisko przypisanego mechanika -->
                             <TextBlock Text="{Binding ImieNazwiskoMechanika}" FontSize="14" FontWeight="SemiBold" Foreground="#00FF00"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
             </Border>
-
-            <!-- PANEL 2: WŁAŚCICIEL (Prawy Górny) -->
             <Border Grid.Row="0" Grid.Column="1" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
                 <StackPanel>
                     <TextBlock Text="WŁAŚCICIEL" FontSize="12" Foreground="Gray" Margin="0,0,0,15"/>
                     <Grid ColumnDefinitions="Auto, *">
                         
-                        <!-- KÓŁKO Z INICJAŁAMI -->
                         <Border Width="50" Height="50" CornerRadius="25" Background="#2A2A35" VerticalAlignment="Top" Margin="0,0,15,0">
-                            <!-- Binding pobiera pierwsze litery imienia i nazwiska (np. AZ) -->
                             <TextBlock Text="{Binding InicjalyKlienta}" Foreground="#00FF00" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         
                         <StackPanel Grid.Column="1">
                             
-                            <!-- DANE KLIENTA -->
                             <TextBlock Text="{Binding ImieNazwiskoKlienta}" FontSize="20" FontWeight="Bold"/>
                             
                             
                             <StackPanel Orientation="Horizontal" Margin="0,2">
                                 <TextBlock Text="☎ " Foreground="Gray"/>
-                                <!-- Binding telefonu klienta z bazy -->
                                 <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Klient.Telefon}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,2">
                                 <TextBlock Text="✉ " Foreground="Gray"/>
-                                <!-- Binding emaila klienta z bazy -->
                                 <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Klient.Email}"/>
                             </StackPanel>
-
-                            <!-- DANE MECHANIKA PROWADZĄCEGO -->
                             <TextBlock Text="MECHANIK PROWADZĄCY" FontSize="10" Foreground="Gray" Margin="0,15,0,2"/>
                             <TextBlock Text="{Binding ImieNazwiskoMechanika}" FontSize="14" FontWeight="SemiBold" Foreground="#00FF00"/>
                             
@@ -121,24 +100,20 @@
                 </StackPanel>
             </Border>
 
-            <!-- PANEL 3: STATUS NAPRAWY (Lewy Dolny) -->
             <Border Grid.Row="1" Grid.Column="0" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
                 <StackPanel>
                     <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,15">
                         <TextBlock Text="STATUS NAPRAWY" FontSize="12" Foreground="Gray" VerticalAlignment="Center"/>
                         
-                        <!-- MAGIA 1: Bindujemy tekst i dodajemy znak '%' na końcu -->
                         <TextBlock Grid.Column="1" 
                                    Text="{Binding ProcentUkonczenia, StringFormat='{}{0}%'}" 
                                    Foreground="#00FF00" FontWeight="Bold" FontSize="16"/>
                     </Grid>
                     
-                    <!-- MAGIA 2: Bindujemy wartość ProgressBar -->
                     <ProgressBar Value="{Binding ProcentUkonczenia}" 
                                  Height="8" Background="#2A2A35" Foreground="#00FF00" 
                                  Margin="0,0,0,15" CornerRadius="4"/>
 
-                    <!-- MAGIA 3: Zamiast pisać Checkboxy z palca, generujemy je z listy -->
                     <ItemsControl ItemsSource="{Binding ListaZadan}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -163,7 +138,6 @@
                 </StackPanel>
             </Border>
 
-            <!-- PANEL 4: KOSZTORYS (Prawy Dolny) -->
             <Border Grid.Row="1" Grid.Column="1" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
                 <Grid RowDefinitions="Auto, *, Auto">
                     <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,15">
@@ -171,7 +145,6 @@
                         <Button Grid.Column="1" Content="✪ edytuj" Background="Transparent" Foreground="LightGray" Padding="5,2" BorderThickness="1" BorderBrush="Gray" FontSize="12"/>
                     </Grid>
 
-                    <!-- Lista części (można to zamienić na DataGrid, ale dla wyglądu używamy ItemsControl lub ListBox) -->
                     <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="*, Auto, Auto" Margin="0,10">
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="POZYCJA" Foreground="Gray" FontSize="12" Margin="0,0,0,10"/>
                         <TextBlock Grid.Row="0" Grid.Column="1" Text="IL." Foreground="Gray" FontSize="12" Margin="10,0,10,10"/>
@@ -190,7 +163,6 @@
                         <TextBlock Grid.Row="3" Grid.Column="2" Text="420 zł" Margin="10,5"/>
                     </Grid>
 
-                    <!-- Podsumowanie -->
                     <StackPanel Grid.Row="2" Margin="0,10,0,0">
                         <Rectangle Height="1" Fill="#2A2A35" Margin="0,5"/>
                         <Grid ColumnDefinitions="*, Auto">

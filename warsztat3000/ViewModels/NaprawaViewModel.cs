@@ -3,14 +3,13 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using warsztat3000.Data;     // Pamiętaj o imporcie przestrzeni nazw z kontekstem bazy
-using warsztat3000.Models;   // Pamiętaj o imporcie modeli
+using warsztat3000.Data;
+using warsztat3000.Models;
 
 namespace warsztat3000.ViewModels
 {
     public class NaprawaViewModel : ViewModelBase
     {
-        // 1. Główny obiekt przechowujący wszystkie dane z bazy
         private Naprawa _aktywnaNaprawa;
         public Naprawa AktywnaNaprawa
         {
@@ -25,7 +24,6 @@ namespace warsztat3000.ViewModels
             }
         }
 
-        // 2. Właściwości pomocnicze dla UI (żeby łatwiej wyświetlić tekst w XAML)
         public string InicjalyKlienta => AktywnaNaprawa?.Pojazd?.Klient != null
             ? $"{AktywnaNaprawa.Pojazd.Klient.Imie[0]}{AktywnaNaprawa.Pojazd.Klient.Nazwisko[0]}"
             : "??";
@@ -38,7 +36,6 @@ namespace warsztat3000.ViewModels
             ? $"{AktywnaNaprawa.MechanikProwadzacy.Imie} {AktywnaNaprawa.MechanikProwadzacy.Nazwisko}"
             : "Brak mechanika";
 
-        // 3. Procent ukończenia i lista zadań (z poprzedniego kroku)
         private int _procentUkonczenia;
         public int ProcentUkonczenia
         {
@@ -58,22 +55,19 @@ namespace warsztat3000.ViewModels
         {
             using (var db = new WarsztatDbContext())
             {
-                // Zapewniamy, że baza istnieje (przydatne przy testach)
                 db.Database.EnsureCreated();
 
-                // UWAGA: Używamy .Include(), aby EF Core dołączył powiązane tabele (JOIN)
                 var naprawaZBazy = db.Naprawy
                     .Include(n => n.Pojazd)
                         .ThenInclude(p => p.Klient)
                     .Include(n => n.MechanikProwadzacy)
                     .Include(n => n.ZadaniaNaprawy)
-                    .FirstOrDefault(); // Pobieramy pierwszą z brzegu naprawę (tę z Seedera)
+                    .FirstOrDefault();
 
                 if (naprawaZBazy != null)
                 {
                     AktywnaNaprawa = naprawaZBazy;
 
-                    // Wczytujemy zadania z bazy do naszej listy CheckBoxów
                     foreach (var zadanie in naprawaZBazy.ZadaniaNaprawy)
                     {
                         DodajZadanie(zadanie.NazwaZadania, zadanie.CzyWykonane);
@@ -103,7 +97,6 @@ namespace warsztat3000.ViewModels
         }
     }
 
-    // (Zostawiamy klasę ZadanieViewModel z poprzedniego kodu bez zmian)
     public class ZadanieViewModel : INotifyPropertyChanged
     {
         public string Nazwa { get; set; }
