@@ -25,7 +25,9 @@ namespace warsztat3000.Models
         public string UwagiTechniczne { get; set; }
         public DateTime Utworzono { get; set; } = DateTime.Now;
 
-        public List<ZadanieNaprawy> Zadania { get; set; }
-        public List<KosztorysPozycja> Kosztorys { get; set; }
+        public ICollection<ZadanieNaprawy> ZadaniaNaprawy { get; set; } = new List<ZadanieNaprawy>();
+
+        // (Jeśli planujesz używać kosztorysu tak samo, dodaj też to:)
+        public ICollection<KosztorysPozycja> KosztorysPozycje { get; set; } = new List<KosztorysPozycja>();
     }
 }

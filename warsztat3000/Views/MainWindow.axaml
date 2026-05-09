@@ -1,43 +1,74 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:warsztat3000.ViewModels"
+        xmlns:views="using:warsztat3000.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="800"
         x:Class="warsztat3000.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Warsztat 3000"
-        Background="#F3F4F6">
+        Background="#0B0A10"
+        Foreground="White">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <StackPanel Margin="20" Spacing="10">
+    <!-- U¿ywamy TabControl, ale uk³adamy zak³adki po lewej stronie -->
+    <TabControl TabStripPlacement="Left" Margin="0">
         
-        <TextBlock Text="Zatrudnieni Mechanicy" 
-                   FontSize="24" 
-                   FontWeight="Bold" 
-                   Foreground="#333333"/>
+        <TabControl.Styles>
+            <!-- Stylizacja bocznego paska zak³adek -->
+            <Style Selector="TabItem">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Margin" Value="0,5"/>
+                <Setter Property="Padding" Value="20,10"/>
+                <Setter Property="Foreground" Value="LightGray"/>
+                <Setter Property="Background" Value="Transparent"/>
+            </Style>
+            <Style Selector="TabItem:selected">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="#00FF00"/> <!-- Akcent zielony -->
+            </Style>
+        </TabControl.Styles>
 
-        <ListBox ItemsSource="{Binding Mechanicy}" 
-                 Background="White"
-                 CornerRadius="8"
-                 Padding="10">
-            
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Spacing="15" Margin="5">
-                        <TextBlock Text="{Binding Imie}" FontWeight="Bold" FontSize="16"/>
-                        <TextBlock Text="{Binding Nazwisko}" FontWeight="Bold" FontSize="16"/>
-                        <TextBlock Text="|" Foreground="LightGray" FontSize="16"/>
-                        <TextBlock Text="{Binding Specjalizacja}" FontStyle="Italic" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Telefon}" Foreground="#0066CC" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            
-        </ListBox>
-    </StackPanel>
+        <!-- ZAK£ADKA 1: NAPRAWA (Na razie dajemy jako pierwsz¹) -->
+        <TabItem Header="? naprawa">
+            <!-- Wstrzykujemy widok naprawy -->
+            <views:NaprawaView DataContext="{Binding NaprawaVM}" />
+        </TabItem>
+
+        <!-- ZAK£ADKA 2: MECHANICY (Twój stary widok) -->
+        <TabItem Header="? mechanicy">
+            <StackPanel Margin="20" Spacing="10">
+                <TextBlock Text="Zatrudnieni Mechanicy" FontSize="24" FontWeight="Bold" Foreground="#00FF00"/>
+                <ListBox ItemsSource="{Binding Mechanicy}" Background="#15141E" Foreground="White" CornerRadius="8" Padding="10">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="15" Margin="5">
+                                <TextBlock Text="{Binding Imie}" FontWeight="Bold" FontSize="16"/>
+                                <TextBlock Text="{Binding Nazwisko}" FontWeight="Bold" FontSize="16"/>
+                                <TextBlock Text="|" Foreground="Gray" FontSize="16"/>
+                                <TextBlock Text="{Binding Specjalizacja}" FontStyle="Italic"/>
+                                <TextBlock Text="{Binding Telefon}" Foreground="#00FF00"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </TabItem>
+
+        <!-- ZAK£ADKA 3: POJAZDY (Pusta na razie) -->
+        <TabItem Header="? pojazdy">
+            <TextBlock Text="Modu³ Pojazdów - W Budowie" Margin="20" FontSize="20"/>
+        </TabItem>
+
+        <!-- ZAK£ADKA 4: HISTORIA (Pusta na razie) -->
+        <TabItem Header="? historia">
+            <TextBlock Text="Modu³ Historii - W Budowie" Margin="20" FontSize="20"/>
+        </TabItem>
+
+    </TabControl>
 </Window>

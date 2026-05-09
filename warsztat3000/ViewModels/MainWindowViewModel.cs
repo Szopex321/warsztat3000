@@ -1,20 +1,23 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
-using warsztat3000.Data;
 using warsztat3000.Models;
+// Upewnij się, że masz tu odpowiednie usingi dla swoich modeli
 
 namespace warsztat3000.ViewModels
 {
-    public partial class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
+        // Twoja obecna lista mechaników
         public ObservableCollection<Mechanik> Mechanicy { get; set; }
+
+        // NOWE: Dodajemy ViewModel dla Twojego nowego widoku
+        public NaprawaViewModel NaprawaVM { get; }
 
         public MainWindowViewModel()
         {
-            using var db = new WarsztatDbContext();
+            // ... Tutaj masz swoje obecne pobieranie mechaników z bazy ...
 
-            var listaZBazy = db.Mechanicy.ToList();
-            Mechanicy = new ObservableCollection<Mechanik>(listaZBazy);
+            // Inicjalizujemy nowy ViewModel dla napraw
+            NaprawaVM = new NaprawaViewModel();
         }
     }
 }

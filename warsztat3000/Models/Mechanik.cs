@@ -12,6 +12,8 @@ namespace warsztat3000.Models
         public string Specjalizacja { get; set; }
         public string Telefon { get; set; }
         public bool CzyAktywny { get; set; } = true;
+        public string PelneNazwisko => $"{Imie} {Nazwisko}";
+
 
 
         public List<Naprawa> ProwadzoneNaprawy { get; set; }
