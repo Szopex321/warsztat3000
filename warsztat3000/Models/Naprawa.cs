@@ -19,6 +19,11 @@ namespace warsztat3000.Models
         public DateTime DataRozpoczecia { get; set; }
         public DateTime? PrzewidywanyKoniec { get; set; }
         public DateTime? RzeczywistyKoniec { get; set; }
+        public bool CzyRozpoczeta { get; set; }
+        public bool CzyZakonczona { get; set; }
+        public DateTime? FaktycznyStart { get; set; }
+        public DateTime? FaktycznyKoniec { get; set; }
+        public decimal Roboczogodziny { get; set; }
         public int ProcentUkonczenia { get; set; } = 0;
         public string Status { get; set; }
         public string QrToken { get; set; }

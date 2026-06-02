@@ -16,5 +16,6 @@ namespace warsztat3000.Models
         public decimal Ilosc { get; set; }
         public decimal CenaJednostkowaBrutto { get; set; }
         public int Vat { get; set; } = 23;
+        public string TypPozycji { get; set; } = TypyKosztorysu.Czesc;
     }
 }

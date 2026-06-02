@@ -5,6 +5,7 @@ using Avalonia.Markup.Xaml;
 using warsztat3000.ViewModels;
 using warsztat3000.Views;
 using warsztat3000.Data;
+using warsztat3000.Services;
 
 namespace warsztat3000
 {
@@ -20,11 +21,15 @@ namespace warsztat3000
             using (var db = new WarsztatDbContext())
             {
                 db.Database.EnsureCreated();
+                DatabaseSeeder.UpewnijSieZeSchematAktualny(db);
                 DatabaseSeeder.WypelnijBaze(db);
             }
 
+            RepairStatusHttpServer.Start();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
+                desktop.Exit += (_, _) => RepairStatusHttpServer.Stop();
                 desktop.MainWindow = new MainWindow
                 {
                     DataContext = new MainWindowViewModel(),

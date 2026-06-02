@@ -13,6 +13,7 @@ namespace warsztat3000.Models
         public string Telefon { get; set; }
         public bool CzyAktywny { get; set; } = true;
         public string PelneNazwisko => $"{Imie} {Nazwisko}";
+        public override string ToString() => PelneNazwisko;
 
 
 

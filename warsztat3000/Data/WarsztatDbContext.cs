@@ -11,6 +11,8 @@ namespace warsztat3000.Data
         public DbSet<Naprawa> Naprawy { get; set; }
         public DbSet<ZadanieNaprawy> ZadaniaNaprawy { get; set; }
         public DbSet<KosztorysPozycja> KosztorysPozycje { get; set; }
+        public DbSet<MarkaPojazdu> MarkiPojazdow { get; set; }
+        public DbSet<ModelPojazdu> ModelePojazdow { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
@@ -22,6 +24,19 @@ namespace warsztat3000.Data
             modelBuilder.Entity<Pojazd>()
                 .HasIndex(p => p.VIN)
                 .IsUnique();
+
+            modelBuilder.Entity<MarkaPojazdu>()
+                .HasIndex(m => m.Nazwa)
+                .IsUnique();
+
+            modelBuilder.Entity<ModelPojazdu>()
+                .HasIndex(m => new { m.MarkaPojazduId, m.Nazwa })
+                .IsUnique();
+
+            modelBuilder.Entity<ModelPojazdu>()
+                .HasOne(m => m.MarkaPojazdu)
+                .WithMany(m => m.Modele)
+                .HasForeignKey(m => m.MarkaPojazduId);
 
             modelBuilder.Entity<Naprawa>()
                 .HasOne(n => n.MechanikProwadzacy)

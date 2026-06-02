@@ -27,12 +27,27 @@ namespace warsztat3000.ViewModels
             MechanicyVM = new MechanicyViewModel();
 
             PojazdyVM.OnPojazdWybrany = PrzejdzDoNaprawy;
+            PojazdyVM.DaneZmienione = OdswiezListy;
+            NaprawaVM.DaneZmienione = OdswiezListy;
+            NaprawaVM.NaprawaZakonczona = PrzygotujHistoriePojazdu;
         }
 
         private void PrzejdzDoNaprawy(Pojazd wybraneAuto)
         {
             WybranaZakladka = 0;
             NaprawaVM.ZaladujPojazd(wybraneAuto);
+        }
+
+        private void OdswiezListy()
+        {
+            PojazdyVM.Odswiez();
+            HistoriaVM.Odswiez();
+            MechanicyVM.Odswiez();
+        }
+
+        private void PrzygotujHistoriePojazdu(int pojazdId)
+        {
+            HistoriaVM.PokazHistoriePojazdu(pojazdId);
         }
     }
 }

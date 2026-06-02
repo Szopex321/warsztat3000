@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:models="using:warsztat3000.Models"
+        x:Class="warsztat3000.Views.EdytujKosztorysDialog"
+        Title="EDYCJA KOSZTORYSU"
+        Width="700" Height="500"
+        WindowStartupLocation="CenterOwner"
+        Background="#0B0A10"
+        Foreground="White">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto" Margin="20">
+        <TextBlock Text="EDYCJA KOSZTORYSU" FontSize="18" FontWeight="Bold" Foreground="#00FF00" Margin="0,0,0,20"/>
+        <TextBlock Grid.Row="1" x:Name="BladText" Foreground="#FF5555" Margin="0,0,0,10" IsVisible="False"/>
+
+        <!-- Formularz dodawania -->
+        <Border Grid.Row="2" Background="#15141E" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+            <Grid ColumnDefinitions="*, 80, 100, Auto">
+                <TextBox x:Name="NazwaBox" Watermark="Nazwa pozycji" Background="#2A2A35" BorderThickness="0" Foreground="White" Margin="0,0,10,0"/>
+                <TextBox Grid.Column="1" x:Name="IloscBox" Watermark="Ilość" Background="#2A2A35" BorderThickness="0" Foreground="White" Margin="0,0,10,0"/>
+                <TextBox Grid.Column="2" x:Name="CenaBox" Watermark="Cena Brutto" Background="#2A2A35" BorderThickness="0" Foreground="White" Margin="0,0,10,0"/>
+                <Button Grid.Column="3" Content="Dodaj do listy" Click="Dodaj_Click" Background="#00FF00" Foreground="Black" FontWeight="Bold"/>
+            </Grid>
+        </Border>
+
+        <!-- Lista aktualnych pozycji -->
+        <Border Grid.Row="3" Background="#15141E" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+            <ItemsControl x:Name="PozycjeGrid">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:KosztorysPozycja">
+                        <Grid ColumnDefinitions="90, *, 80, 110, Auto" Margin="0,5">
+                            <TextBlock Text="{Binding TypPozycji}" Grid.Column="0" Foreground="Gray"/>
+                            <TextBlock Text="{Binding NazwaPozycji}" Grid.Column="1"/>
+                            <TextBlock Text="{Binding Ilosc}" Grid.Column="2"/>
+                            <TextBlock Text="{Binding CenaJednostkowaBrutto, StringFormat='{}{0:F2} zł'}" Grid.Column="3"/>
+                            <Button Grid.Column="4" Content="Usuń" Click="Usun_Click" Background="Transparent" Foreground="#FF7777" BorderBrush="#2A2A35" Padding="8,2"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+
+        <!-- Akcje i Podsumowanie -->
+        <Grid Grid.Row="4" ColumnDefinitions="Auto, *">
+            <Button Content="Zakończ Edycję" Click="Zakoncz_Click" Background="#00FF00" Foreground="Black" FontWeight="Bold" Padding="20,10"/>
+            <TextBlock Grid.Column="1" Text="Zapisywane automatycznie." Foreground="Gray" VerticalAlignment="Center" Margin="15,0,0,0"/>
+        </Grid>
+    </Grid>
+</Window>

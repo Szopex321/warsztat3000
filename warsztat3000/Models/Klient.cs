@@ -14,5 +14,7 @@ namespace warsztat3000.Models
         public DateTime DataDodania { get; set; } = DateTime.Now;
 
         public List<Pojazd> Pojazdy { get; set; }
+
+        public override string ToString() => $"{Imie} {Nazwisko}";
     }
 }
