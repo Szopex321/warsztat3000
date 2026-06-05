@@ -1,5 +1,13 @@
 # Warsztat 3000 - system obsługi warsztatu samochodowego
 
+- Uczelnia: Uniwersytet Rzeszowski
+- Instytut: Instytut Informatyki
+- Kierunek: Informatyka, II rok
+- Przedmiot: Programowanie Obiektowe 2, lata akademickie 2025/2026
+- Prowadzący: mgr inż. Wojciech Gałka
+- Wykonawca: Kamil Szopniewski, nr albumu 134976
+- Miejsce i rok: Rzeszów, 2026
+
 Warsztat 3000 to desktopowa aplikacja dla małego lub średniego warsztatu samochodowego. Jej celem jest zebranie w jednym miejscu informacji o klientach, pojazdach, aktywnych naprawach, mechanikach, kosztorysach oraz historii wizyt.
 
 Aplikacja rozwiązuje problem prowadzenia napraw w rozproszonych notatkach, arkuszach lub papierowych zleceniach. Wyróżnia się tym, że poza klasyczną bazą pojazdów ma widok aktywnej naprawy z postępem zadań, kosztorysem, strefami pojazdu oraz lokalnym linkiem QR, który pozwala klientowi podejrzeć status naprawy.
