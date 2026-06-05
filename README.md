@@ -28,7 +28,6 @@ Aplikacja rozwiązuje problem prowadzenia napraw w rozproszonych notatkach, arku
 - SDK: `.NET SDK 10.0` lub nowszy zgodny z `net10.0`.
 - Runtime dla gotowej wersji: `.NET Desktop Runtime 10.0`, jeśli aplikacja jest publikowana jako `--self-contained false`.
 - Baza danych: lokalny plik SQLite, bez instalowania osobnego serwera.
-- Dodatkowe narzędzia: Git do pobrania repozytorium.
 
 ### Proces instalacji
 
@@ -218,32 +217,7 @@ Przykładowy link QR pobrany z danych demonstracyjnych:
 http://localhost:5055/status/1/96260ecd-5718-4fa4-826f-91131a40a2e4
 ```
 
-Gotowa część do wklejenia ze strony statusu QR:
-
-```markdown
-## Status naprawy
-
-Status: W NAPRAWIE
-Postęp: 50% ukończenia
-Strona odświeża status automatycznie co 15 sekund.
-
-### Pojazd
-
-RZE12345 - Toyota Corolla
-VIN: JTD1234567890ABCD
-Właściciel: Anna Zalewska
-
-### Naprawa
-
-Mechanik: Jan Kowalski
-Przyjęto: 17.05.2026
-Planowany koniec: brak daty w przykładowej bazie
-
-### Zadania
-
-- Wymiana sworznia wahacza - wykonane
-- Zbieżność - do zrobienia
-```
+![Okno lokalnej strony statusu.](warsztat3000/Assets/README/07_strona_dla_klienta.png)
 
 ### Walidacja i przypadki brzegowe
 
@@ -270,10 +244,6 @@ System zapisuje lokalnie:
 - pozycje kosztorysu: nazwa, ilość, cena brutto, VAT i typ pozycji.
 
 Dane nie są wysyłane na zewnętrzny serwer. Są przechowywane w lokalnym pliku SQLite `warsztat3000.db`.
-
-### Responsywność
-
-Warsztat 3000 jest aplikacją desktopową, a nie webową. Główne okno ma rozmiar startowy około `1300 x 800 px`. Interfejs używa list, paneli i przewijania, ale nie ma osobnej wersji mobilnej. Na mniejszych ekranach najważniejsze jest uruchomienie aplikacji w maksymalizowanym oknie.
 
 ## Architektura projektu
 
@@ -424,28 +394,3 @@ http://localhost:8080
 ```
 
 Wygenerowany portal zawiera stronę startową, część o bazie danych oraz sekcję `API` budowaną z komentarzy XML w kodzie C#.
-
-## Plany rozbudowy
-
-W pierwszej wersji zabrakło przede wszystkim instalatora, pełnego systemu użytkowników i bardziej rozbudowanych raportów. Aplikacja działa lokalnie, więc nie ma synchronizacji między wieloma komputerami w warsztacie.
-
-Potencjalne funkcje dla wersji `v2.0`:
-
-- instalator Windows i automatyczne aktualizacje,
-- logowanie oraz role, np. właściciel, mechanik, recepcja,
-- obsługa wielu stanowisk z jedną wspólną bazą danych,
-- eksport kosztorysu do PDF i wysyłka emailem do klienta,
-- powiadomienia SMS lub email o zmianie statusu naprawy,
-- kalendarz terminów i obciążenia mechaników,
-- magazyn części i rezerwowanie części do napraw,
-- pełna karta klienta z historią wszystkich pojazdów,
-- raporty miesięczne: przychód, liczba napraw, czas pracy mechaników,
-- responsywny panel webowy dla klienta zamiast wyłącznie lokalnego linku QR.
-
-Potencjał optymalizacji:
-
-- zastąpienie lokalnego SQLite bazą sieciową, jeśli aplikacja ma działać na wielu stanowiskach,
-- uporządkowanie migracji EF Core zamiast ręcznej aktualizacji schematu,
-- rozdzielenie konfiguracji, np. stawki roboczogodziny i portu serwera statusu,
-- dodanie testów jednostkowych dla walidacji, wyliczania kosztorysu i postępu naprawy,
-- poprawa obsługi mniejszych ekranów i skalowania interfejsu.
