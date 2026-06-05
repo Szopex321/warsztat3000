@@ -1,0 +1,266 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:warsztat3000.Models"
+             xmlns:vm="using:warsztat3000.ViewModels"
+             x:Class="warsztat3000.Views.NaprawaView"
+             x:Name="Root"
+             x:DataType="vm:NaprawaViewModel"
+             Background="#0B0A10"
+             Foreground="White">
+
+    <UserControl.Styles>
+        <Style Selector="Border.damage-zone">
+            <Setter Property="Background" Value="#23232E"/>
+            <Setter Property="BorderBrush" Value="#3B3B48"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Border.damage-zone:pointerover">
+            <Setter Property="Background" Value="#3D3A10"/>
+            <Setter Property="BorderBrush" Value="#FFE600"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid RowDefinitions="Auto, Auto, *" Margin="20">
+        
+        <WrapPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+            <Button Content="nowy pojazd + naprawa" Command="{Binding NowyPojazdCommand}" Background="#00FF00" Foreground="Black" FontWeight="Bold" Margin="0,0,10,0" Padding="15,8"/>
+            <Button Content="wydrukuj kosztorys" Command="{Binding WydrukujKosztorysCommand}" Background="Transparent" BorderBrush="Gray" BorderThickness="1" Foreground="LightGray" Margin="0,0,10,0" Padding="15,8"/>
+            <Button Content="pokaż kod QR" Command="{Binding PokazKodQrCommand}" Background="Transparent" BorderBrush="Gray" BorderThickness="1" Foreground="LightGray" Margin="0,0,10,0" Padding="15,8"/>
+        </WrapPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,20">
+            <TextBox Watermark="wyszukaj pojazd po rejestracji" Text="{Binding TekstWyszukiwarki}" Width="300" Background="#15141E" Foreground="White" BorderBrush="Gray"/>
+            <Button Content="szukaj" Command="{Binding SzukajPojazduCommand}" Background="#00FF00" Foreground="Black" FontWeight="Bold" Margin="10,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*, *">
+            <Grid Grid.Column="0" RowDefinitions="*, *">
+            
+             <Border Grid.Row="0" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
+                <StackPanel>
+                    <TextBlock Text="LOKALIZACJA NAPRAWY" FontSize="12" Foreground="Gray" Margin="0,0,0,15"/>
+                    <Border Background="#20202B" CornerRadius="18" Height="220" HorizontalAlignment="Stretch" Padding="12">
+                        <Grid ColumnDefinitions="*, 2*, *" RowDefinitions="*, *, *">
+                            <Border Grid.Column="1" Grid.RowSpan="3" Background="#2A2A35" CornerRadius="90" Margin="10,4" Padding="18">
+                                <Image Source="/public/car_topdown.png" Stretch="Uniform"/>
+                            </Border>
+
+                            <Border Grid.Column="0" Grid.Row="0" Classes="damage-zone" ToolTip.Tip="{Binding LewyPrzodStrefa.OpisZadan}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding LewyPrzodStrefa.Nazwa}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding LewyPrzodStrefa.LiczbaZadan, StringFormat='naprawy: {0}'}" Foreground="#FFE600" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="0" Grid.Row="1" Classes="damage-zone" ToolTip.Tip="{Binding LewySrodekStrefa.OpisZadan}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding LewySrodekStrefa.Nazwa}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding LewySrodekStrefa.LiczbaZadan, StringFormat='naprawy: {0}'}" Foreground="#FFE600" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="0" Grid.Row="2" Classes="damage-zone" ToolTip.Tip="{Binding LewyTylStrefa.OpisZadan}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding LewyTylStrefa.Nazwa}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding LewyTylStrefa.LiczbaZadan, StringFormat='naprawy: {0}'}" Foreground="#FFE600" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="2" Grid.Row="0" Classes="damage-zone" ToolTip.Tip="{Binding PrawyPrzodStrefa.OpisZadan}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PrawyPrzodStrefa.Nazwa}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding PrawyPrzodStrefa.LiczbaZadan, StringFormat='naprawy: {0}'}" Foreground="#FFE600" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="2" Grid.Row="1" Classes="damage-zone" ToolTip.Tip="{Binding PrawySrodekStrefa.OpisZadan}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PrawySrodekStrefa.Nazwa}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding PrawySrodekStrefa.LiczbaZadan, StringFormat='naprawy: {0}'}" Foreground="#FFE600" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Grid.Column="2" Grid.Row="2" Classes="damage-zone" ToolTip.Tip="{Binding PrawyTylStrefa.OpisZadan}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PrawyTylStrefa.Nazwa}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding PrawyTylStrefa.LiczbaZadan, StringFormat='naprawy: {0}'}" Foreground="#FFE600" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="1" Grid.Row="0" Classes="damage-zone" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130" ToolTip.Tip="{Binding SilnikStrefa.OpisZadan}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding SilnikStrefa.Nazwa}" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding SilnikStrefa.LiczbaZadan, StringFormat='naprawy: {0}'}" HorizontalAlignment="Center" Foreground="#FFE600" FontSize="11"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
+                <StackPanel>
+                    <TextBlock Text="WŁAŚCICIEL I POJAZD" FontSize="12" Foreground="Gray" Margin="0,0,0,15"/>
+                    <Grid ColumnDefinitions="Auto, *">
+                        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                            <Border Width="60" Height="60" CornerRadius="30" Background="#2A2A35" Margin="0,0,0,10">
+                                <TextBlock Text="{Binding InicjalyKlienta}" Foreground="#00FF00" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="{Binding ImieNazwiskoKlienta}" FontSize="20" FontWeight="Bold"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                <TextBlock Text="Telefon: " Foreground="Gray"/>
+                                <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Klient.Telefon}" Margin="0,0,15,0"/>
+                                <TextBlock Text="Email: " Foreground="Gray"/>
+                                <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Klient.Email}"/>
+                            </StackPanel>
+
+                            <Rectangle Height="1" Fill="#2A2A35" Margin="0,10"/>
+
+                            <Grid ColumnDefinitions="*, *">
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Marka, StringFormat='marka: {0}'}" FontSize="14"/>
+                                    <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.Model, StringFormat='model: {0}'}" FontSize="14" Margin="0,2,0,0"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.RokProdukcji, StringFormat='rok prod.: {0}'}" FontSize="14"/>
+                                    <TextBlock Text="{Binding AktywnaNaprawa.Pojazd.VIN, StringFormat='VIN: {0}'}" FontSize="14" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            </Grid>
+
+            <Border Grid.Column="1" Background="#15141E" CornerRadius="8" Margin="5" Padding="15">
+                <Grid RowDefinitions="Auto, *, Auto">
+                <StackPanel Grid.Row="0">
+                    <Grid ColumnDefinitions="*, Auto, Auto" Margin="0,0,0,15">
+                        <TextBlock Text="NAPRAWY / STATUS NAPRAWY" FontSize="12" Foreground="Gray" VerticalAlignment="Center"/>
+                        <Button Grid.Column="1"
+                                Content="Kosztorys / części"
+                                Command="{Binding EdytujKosztorysCommand}"
+                                IsEnabled="{Binding CzyJestAktywnaNaprawa}"
+                                Background="Transparent"
+                                Foreground="LightGray"
+                                Padding="8,3"
+                                BorderThickness="1"
+                                BorderBrush="Gray"
+                                FontSize="12"
+                                Margin="0,0,10,0"/>
+                        
+                        <TextBlock Grid.Column="2" 
+                                   Text="{Binding ProcentUkonczenia, StringFormat='{}{0}%'}" 
+                                   Foreground="#00FF00" FontWeight="Bold" FontSize="16"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,10">
+                        <StackPanel>
+                            <TextBlock Text="MECHANIK PROWADZĄCY" FontSize="10" Foreground="Gray"/>
+                            <TextBlock Text="{Binding ImieNazwiskoMechanika}" FontSize="15" FontWeight="SemiBold" Foreground="#00FF00" Margin="0,2,0,0"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                            <TextBlock Text="RAZEM BRUTTO" FontSize="10" Foreground="Gray" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{Binding RazemBrutto, StringFormat='{}{0:F2} zł'}" Foreground="#00FF00" FontWeight="Bold" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*, 150, Auto" Margin="0,0,0,15">
+                        <TextBox Watermark="nowe zadanie naprawy"
+                                 Text="{Binding NoweZadanieNazwa}"
+                                 Background="#2A2A35"
+                                 Foreground="White"
+                                 BorderThickness="0"
+                                 Margin="0,0,8,0"/>
+                        <ComboBox Grid.Column="1"
+                                  ItemsSource="{Binding DostepneStrefy}"
+                                  SelectedItem="{Binding WybranaStrefaDlaNowegoZadania}"
+                                  Background="#2A2A35"
+                                  Foreground="White"
+                                  Margin="0,0,8,0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="models:StrefaPojazduOpcja">
+                                    <TextBlock Text="{Binding Nazwa}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <Button Grid.Column="2"
+                                Content="Dodaj"
+                                Command="{Binding DodajZadanieDoNaprawyCommand}"
+                                IsEnabled="{Binding CzyJestAktywnaNaprawa}"
+                                Background="#00FF00"
+                                Foreground="Black"
+                                FontWeight="Bold"
+                                Padding="10,4"/>
+                    </Grid>
+                    
+                    <ProgressBar Value="{Binding ProcentUkonczenia}" 
+                                 Height="8" Background="#2A2A35" Foreground="#00FF00" 
+                                 Margin="0,0,0,15" CornerRadius="4"/>
+
+                    <Grid ColumnDefinitions="*, Auto" Margin="0,0,0,12">
+                        <CheckBox Content="rozpoczęto naprawę"
+                                  IsChecked="{Binding CzyNaprawaRozpoczeta, Mode=OneWay}"
+                                  IsEnabled="{Binding CzyJestAktywnaNaprawa}"
+                                  Command="{Binding RozpocznijNapraweCommand}"
+                                  Foreground="White"/>
+                        <Button Grid.Column="1"
+                                Content="Zakończ naprawę"
+                                Command="{Binding ZakonczNapraweCommand}"
+                                IsEnabled="{Binding CzyJestAktywnaNaprawa}"
+                                Background="#00FF00"
+                                Foreground="Black"
+                                FontWeight="Bold"
+                                Padding="10,4"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*, *" Margin="0,0,0,12">
+                        <TextBlock Text="{Binding CzasNaprawyOpis, StringFormat='czas naprawy: {0}'}" Foreground="Gray"/>
+                        <TextBlock Grid.Column="1" Text="{Binding RoboczogodzinyOpis, StringFormat='robocizna: {0}'}" Foreground="#FFE600" HorizontalAlignment="Right"/>
+                    </Grid>
+                </StackPanel>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,0,0,12">
+                    <ItemsControl ItemsSource="{Binding ListaZadan}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="vm:ZadanieViewModel">
+                                <Grid ColumnDefinitions="*, Auto, Auto" Margin="0,5">
+                                    <CheckBox Grid.Column="0"
+                                              Content="{Binding Nazwa}" 
+                                              IsChecked="{Binding CzyWykonane}" 
+                                              Foreground="White"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding StrefaNazwa}" Foreground="Gray" Margin="10,0"/>
+                                    <Button Grid.Column="2"
+                                            Content="Usuń"
+                                            Command="{Binding #Root.DataContext.UsunZadanieCommand}"
+                                            CommandParameter="{Binding}"
+                                            Background="Transparent"
+                                            Foreground="#FF7777"
+                                            BorderThickness="0"
+                                            Padding="5,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="2" ColumnDefinitions="*, *" Margin="0,8,0,0">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="DATA ROZPOCZĘCIA" FontSize="10" Foreground="Gray"/>
+                            <TextBlock Text="{Binding AktywnaNaprawa.FaktycznyStart, StringFormat='{}{0:dd.MM.yyyy HH:mm}'}" FontSize="14"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="PRZEWIDYWANY KONIEC" FontSize="10" Foreground="Gray"/>
+                            <TextBlock Text="{Binding AktywnaNaprawa.PrzewidywanyKoniec, StringFormat='{}{0:dd.MM.yyyy}'}" FontSize="14" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </Grid>
+</UserControl>

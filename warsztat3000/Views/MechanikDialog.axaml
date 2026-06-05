@@ -1,0 +1,28 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="warsztat3000.Views.MechanikDialog"
+        Title="MECHANIK"
+        Width="430" Height="360"
+        WindowStartupLocation="CenterOwner"
+        Background="#0B0A10"
+        Foreground="White"
+        CanResize="False">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Margin="20">
+        <TextBlock Text="DANE MECHANIKA" FontSize="18" FontWeight="Bold" Foreground="#00FF00" Margin="0,0,0,16"/>
+        <TextBlock Grid.Row="1" x:Name="BladText" Foreground="#FF5555" Margin="0,0,0,10" IsVisible="False"/>
+
+        <StackPanel Grid.Row="2">
+            <TextBox x:Name="ImieBox" Watermark="Imię" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+            <TextBox x:Name="NazwiskoBox" Watermark="Nazwisko" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+            <TextBox x:Name="SpecjalizacjaBox" Watermark="Specjalizacja" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+            <TextBox x:Name="TelefonBox" Watermark="Telefon" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+            <CheckBox x:Name="AktywnyCheck" Content="Mechanik aktywny" IsChecked="True"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Anuluj" Click="Anuluj_Click" Background="Transparent" Foreground="LightGray" BorderBrush="#2A2A35" BorderThickness="1" Margin="0,0,10,0" Padding="15,8"/>
+            <Button Content="Zapisz" Click="Zapisz_Click" Background="#00FF00" Foreground="Black" FontWeight="Bold" Padding="15,8"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,58 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="warsztat3000.Views.NowyPojazdDialog"
+        Title="DODAJ NOWY POJAZD"
+        Width="760" Height="640"
+        WindowStartupLocation="CenterOwner"
+        Background="#0B0A10"
+        Foreground="White"
+        CanResize="False">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto" Margin="20">
+        <TextBlock Text="DODAJ NOWY POJAZD" FontSize="20" FontWeight="Bold" Foreground="#00FF00" Margin="0,0,0,20"/>
+
+        <TextBlock Grid.Row="1" x:Name="BladText" Foreground="#FF5555" Margin="0,0,0,10" IsVisible="False"/>
+
+        <Border Grid.Row="2" x:Name="VinCheckPanel" Background="#15141E" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+            <StackPanel>
+                <TextBlock Text="SPRAWDŹ VIN" FontSize="14" Foreground="Gray" Margin="0,0,0,10"/>
+                <TextBlock Text="Najpierw wpisz VIN. Jeśli pojazd był już w bazie albo miał naprawy, użyjemy go do dodania nowej naprawy." TextWrapping="Wrap" Foreground="LightGray" Margin="0,0,0,12"/>
+                <Grid ColumnDefinitions="*, Auto">
+                    <TextBox x:Name="VinStartBox" Watermark="VIN" Background="#20202B" BorderBrush="#2A2A35" Foreground="White" Margin="0,0,10,0"/>
+                    <Button Grid.Column="1" Content="Sprawdź VIN" Click="SprawdzVin_Click" Background="#00FF00" Foreground="Black" FontWeight="Bold" Padding="15,8"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="3" x:Name="FormularzPanel" ColumnDefinitions="*, *" Margin="0,0,0,20" IsVisible="False">
+            <!-- Klient -->
+            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                <TextBlock Text="DANE KLIENTA" FontSize="14" Foreground="Gray" Margin="0,0,0,10"/>
+                <ComboBox x:Name="KlientCombo" PlaceholderText="Wybierz klienta z bazy" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                <CheckBox x:Name="NowyKlientCheck" Content="Dodaj nowego klienta" Click="NowyKlient_Click" Margin="0,0,0,10" Foreground="White"/>
+                <StackPanel x:Name="NowyKlientPanel" IsVisible="False">
+                    <TextBox x:Name="ImieBox" Watermark="Imię" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                    <TextBox x:Name="NazwiskoBox" Watermark="Nazwisko" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                    <TextBox x:Name="TelefonBox" Watermark="Telefon" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                    <TextBox x:Name="EmailBox" Watermark="E-mail" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Auto -->
+            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                <TextBlock Text="DANE POJAZDU" FontSize="14" Foreground="Gray" Margin="0,0,0,10"/>
+                <TextBox x:Name="RejestracjaBox" Watermark="Rejestracja" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                <ComboBox x:Name="MarkaCombo" PlaceholderText="Wybierz markę" SelectionChanged="MarkaCombo_SelectionChanged" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                <ComboBox x:Name="ModelCombo" PlaceholderText="Wybierz model" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                <TextBox x:Name="ModelRecznyBox" Watermark="Inny model, jeśli nie ma na liście" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                <TextBox x:Name="RokBox" Watermark="Rok Produkcji" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+                <TextBox x:Name="VinBox" Watermark="VIN" Margin="0,0,0,10" Background="#15141E" BorderBrush="#2A2A35" Foreground="White"/>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Anuluj" Click="Anuluj_Click" Background="Transparent" Foreground="LightGray" BorderBrush="#2A2A35" BorderThickness="1" Margin="0,0,10,0" Padding="15,8"/>
+            <Button x:Name="ZapiszButton" Content="Zapisz Pojazd" Click="Zapisz_Click" Background="#00FF00" Foreground="Black" FontWeight="Bold" Padding="15,8" IsVisible="False"/>
+        </StackPanel>
+    </Grid>
+</Window>

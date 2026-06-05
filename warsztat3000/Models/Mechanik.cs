@@ -12,8 +12,11 @@ namespace warsztat3000.Models
         public string Specjalizacja { get; set; }
         public string Telefon { get; set; }
         public bool CzyAktywny { get; set; } = true;
+        public string PelneNazwisko => $"{Imie} {Nazwisko}";
+        public override string ToString() => PelneNazwisko;
 
-        // Relacje
+
+
         public List<Naprawa> ProwadzoneNaprawy { get; set; }
         public List<ZadanieNaprawy> WykonaneZadania { get; set; }
     }

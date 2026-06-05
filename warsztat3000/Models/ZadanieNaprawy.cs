@@ -14,6 +14,7 @@ namespace warsztat3000.Models
 
         public string NazwaZadania { get; set; }
         public bool CzyWykonane { get; set; } = false;
+        public string StrefaPojazdu { get; set; } = StrefyPojazdu.Silnik;
 
         public int? MechanikWykonawcaId { get; set; }
         [ForeignKey("MechanikWykonawcaId")]

@@ -1,0 +1,45 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="warsztat3000.Views.WydrukujKosztorysDialog"
+        Title="PODGLĄD WYDRUKU"
+        Width="800" Height="900"
+        WindowStartupLocation="CenterOwner"
+        Background="#0B0A10"
+        Foreground="White">
+
+    <Grid ColumnDefinitions="*, 250">
+        <!-- Biała kartka papieru / Podgląd -->
+        <ScrollViewer Grid.Column="0" Background="#2A2A35" Padding="20">
+            <Border Background="White" Width="595" Height="842" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="40" BoxShadow="0 4 8 0 #000000">
+                <StackPanel>
+                    <TextBlock Text="WARSZTAT 3000" FontSize="24" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,0,0,30"/>
+                    
+                    <TextBlock Text="Zestawienie kosztów naprawy" FontSize="18" Foreground="Black" Margin="0,0,0,20"/>
+                    
+                    <TextBlock x:Name="PojazdText" Text="Dane pojazdu: [Tu pojawią się dane]" Foreground="#333333" Margin="0,0,0,5"/>
+                    <TextBlock x:Name="WlascicielText" Text="Właściciel: [Tu pojawią się dane]" Foreground="#333333" Margin="0,0,0,30"/>
+
+                    <Border BorderBrush="Black" BorderThickness="1" Padding="10">
+                        <StackPanel x:Name="PozycjePanel">
+                            <TextBlock Text="[Tu pojawi się tabela kosztorysu]" Foreground="Black" HorizontalAlignment="Center" Margin="0,50"/>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock x:Name="RazemText" Text="Razem: 0,00 zł" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,20,0,0"/>
+                    
+                    <TextBlock Text="Dziękujemy za skorzystanie z naszych usług!" Foreground="#555555" HorizontalAlignment="Center" Margin="0,50,0,0" FontSize="10"/>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <!-- Menu akcji (Prawe) -->
+        <Border Grid.Column="1" Background="#15141E" Padding="20">
+            <StackPanel>
+                <TextBlock Text="AKCJE WYDRUKU" FontSize="14" Foreground="Gray" Margin="0,0,0,20"/>
+                <Button Content="Zapisz jako PDF" Click="ZapiszPdf_Click" Background="#00FF00" Foreground="Black" FontWeight="Bold" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,0,0,10" Padding="10"/>
+                <Button Content="Drukuj" Click="Drukuj_Click" Background="Transparent" Foreground="LightGray" BorderBrush="#2A2A35" BorderThickness="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,0,0,20" Padding="10"/>
+                <Button Content="Zamknij" Click="Zamknij_Click" Background="Transparent" Foreground="LightGray" BorderThickness="0" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="10"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
