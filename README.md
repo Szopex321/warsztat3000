@@ -125,7 +125,7 @@ Nie ma podziału na role użytkowników. Zakładany użytkownik to pracownik war
 
 ### Zarządzanie naprawą
 
-![Widok zarządzania naprawą pokazuje aktywną naprawę, dane klienta i pojazdu, strefy auta, listę zadań, mechanika prowadzącego, postęp oraz sumę kosztorysu.](Assets/README/01_zarzadzanie_naprawa.png)
+![Widok zarządzania naprawą pokazuje aktywną naprawę, dane klienta i pojazdu, strefy auta, listę zadań, mechanika prowadzącego, postęp oraz sumę kosztorysu.](warsztat3000/Assets/README/01_zarzadzanie_naprawa.png)
 
 Na tym ekranie pracownik widzi najważniejsze dane o aktywnej naprawie. Lewa część pokazuje lokalizację napraw na schemacie pojazdu oraz dane właściciela. Prawa część służy do zarządzania zadaniami, postępem, rozpoczęciem i zakończeniem naprawy.
 
@@ -144,7 +144,7 @@ Najważniejszy mechanizm tego widoku to automatyczne przeliczanie postępu. Proc
 
 ### Baza pojazdów
 
-![Widok bazy pojazdów prezentuje auta z aktywnymi naprawami, właścicieli, numery VIN i przyciski edycji lub usuwania.](Assets/README/02_baza_pojazdow.png)
+![Widok bazy pojazdów prezentuje auta z aktywnymi naprawami, właścicieli, numery VIN i przyciski edycji lub usuwania.](warsztat3000/Assets/README/02_baza_pojazdow.png)
 
 Zakładka `Baza Pojazdów` pokazuje pojazdy, które aktualnie mają otwartą naprawę. Pole wyszukiwania filtruje listę po numerze rejestracyjnym, VIN, marce, modelu, imieniu albo nazwisku właściciela.
 
@@ -164,7 +164,7 @@ Zakładka `Baza Pojazdów` pokazuje pojazdy, które aktualnie mają otwartą nap
 
 ### Mechanicy
 
-![Widok mechaników pokazuje imię, nazwisko, specjalizację, telefon oraz aktywność pracownika warsztatu.](Assets/README/03_nasi_mechanicy.png)
+![Widok mechaników pokazuje imię, nazwisko, specjalizację, telefon oraz aktywność pracownika warsztatu.](warsztat3000/Assets/README/03_nasi_mechanicy.png)
 
 Zakładka `Nasi Mechanicy` pozwala utrzymywać listę pracowników, którzy mogą prowadzić naprawy. Mechanik ma imię, nazwisko, specjalizację, numer telefonu oraz status aktywności.
 
@@ -178,7 +178,7 @@ Status aktywności pozwala zachować dane mechanika w historii, a jednocześnie 
 
 ### Historia warsztatu
 
-![Historia warsztatu pokazuje listę pojazdów z wizytami oraz szczegóły wybranej naprawy: datę, status, cenę, mechanika i wykonane czynności.](Assets/README/04_historia_warsztatu.png)
+![Historia warsztatu pokazuje listę pojazdów z wizytami oraz szczegóły wybranej naprawy: datę, status, cenę, mechanika i wykonane czynności.](warsztat3000/Assets/README/04_historia_warsztatu.png)
 
 Historia gromadzi wizyty pojazdów. Po lewej stronie znajduje się lista aut, a po prawej szczegóły wizyt wybranego samochodu.
 
@@ -192,7 +192,7 @@ Historia gromadzi wizyty pojazdów. Po lewej stronie znajduje się lista aut, a 
 
 ### Kosztorys
 
-![Okno edycji kosztorysu umożliwia dodawanie pozycji części, podanie ilości i ceny brutto oraz usuwanie pozycji z listy.](Assets/README/05_edycja_kosztorysu.png)
+![Okno edycji kosztorysu umożliwia dodawanie pozycji części, podanie ilości i ceny brutto oraz usuwanie pozycji z listy.](warsztat3000/Assets/README/05_edycja_kosztorysu.png)
 
 Kosztorys jest przypisany do konkretnej naprawy. Użytkownik może dodawać części i inne pozycje kosztowe przez nazwę, ilość oraz cenę brutto.
 
@@ -208,7 +208,7 @@ Zasady działania kosztorysu:
 
 ### Kod QR i status naprawy
 
-![Okno kodu QR prezentuje kod i link do lokalnej strony statusu, którą można otworzyć w przeglądarce na tym samym komputerze.](Assets/README/06_kod_qr_statusu.png)
+![Okno kodu QR prezentuje kod i link do lokalnej strony statusu, którą można otworzyć w przeglądarce na tym samym komputerze.](warsztat3000/Assets/README/06_kod_qr_statusu.png)
 
 Kod QR prowadzi do lokalnej strony statusu naprawy. Strona działa, gdy uruchomiona jest aplikacja Warsztat 3000, ponieważ to ona startuje serwer HTTP na porcie `5055`. Jeśli port jest zajęty, aplikacja próbuje kolejnych portów do `5065`.
 
