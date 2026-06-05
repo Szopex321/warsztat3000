@@ -3,6 +3,15 @@ using warsztat3000.Models;
 
 namespace warsztat3000.Data
 {
+    /// <summary>
+    /// Główny kontekst Entity Framework Core dla lokalnej bazy danych warsztatu.
+    /// </summary>
+    /// <remarks>
+    /// Kontekst korzysta z pliku SQLite <c>warsztat3000.db</c>, dzięki czemu aplikacja
+    /// może działać bez osobnego serwera bazy danych. Definiuje również najważniejsze
+    /// ograniczenia domenowe, np. unikalność numeru VIN i relację naprawy z mechanikiem.
+    /// </remarks>
+    /// <seealso cref="DatabaseSeeder"/>
     public class WarsztatDbContext : DbContext
     {
         public DbSet<Mechanik> Mechanicy { get; set; }
@@ -14,11 +23,28 @@ namespace warsztat3000.Data
         public DbSet<MarkaPojazdu> MarkiPojazdow { get; set; }
         public DbSet<ModelPojazdu> ModelePojazdow { get; set; }
 
+        /// <summary>
+        /// Ustawia lokalne połączenie SQLite używane przez całą aplikację.
+        /// </summary>
+        /// <param name="options">Builder konfiguracji dostawcy bazy danych.</param>
+        /// <remarks>
+        /// Connection string jest celowo prosty i lokalny, ponieważ projekt ma działać
+        /// jako aplikacja desktopowa uruchamiana na jednym komputerze.
+        /// </remarks>
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseSqlite("Data Source=warsztat3000.db");
         }
 
+        /// <summary>
+        /// Konfiguruje relacje i indeksy, których nie da się bezpiecznie wywnioskować
+        /// wyłącznie z nazw właściwości modelu.
+        /// </summary>
+        /// <param name="modelBuilder">Builder modelu EF Core używany podczas tworzenia schematu.</param>
+        /// <remarks>
+        /// Relacja <see cref="Naprawa.MechanikProwadzacy"/> ma ograniczone usuwanie,
+        /// aby historyczne naprawy nie znikały po dezaktywacji lub usunięciu mechanika.
+        /// </remarks>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Pojazd>()

@@ -12,6 +12,14 @@ using warsztat3000.Views;
 
 namespace warsztat3000.ViewModels
 {
+    /// <summary>
+    /// ViewModel zakładki z pojazdami posiadającymi aktywne naprawy.
+    /// </summary>
+    /// <remarks>
+    /// Klasa odpowiada za filtrowanie listy pojazdów, otwieranie edycji danych auta
+    /// oraz przekazanie wybranego pojazdu do widoku aktywnej naprawy.
+    /// </remarks>
+    /// <seealso cref="NaprawaViewModel"/>
     public partial class PojazdyViewModel : ViewModelBase
     {
         public ObservableCollection<Pojazd> ListaPojazdow { get; set; }
@@ -49,12 +57,21 @@ namespace warsztat3000.ViewModels
             }
         }
 
+        /// <summary>
+        /// Tworzy listę pojazdów i od razu ładuje z bazy aktywne naprawy.
+        /// </summary>
         public PojazdyViewModel()
         {
             ListaPojazdow = new ObservableCollection<Pojazd>();
             WczytajPojazdyZBazy();
         }
 
+        /// <summary>
+        /// Ponownie wczytuje listę pojazdów po zmianach w innych zakładkach.
+        /// </summary>
+        /// <remarks>
+        /// Metoda jest wywoływana m.in. po dodaniu naprawy, edycji pojazdu albo usunięciu wpisu.
+        /// </remarks>
         public void Odswiez()
         {
             WczytajPojazdyZBazy();
@@ -93,6 +110,13 @@ namespace warsztat3000.ViewModels
                 ListaPojazdow.Add(pojazd);
         }
 
+        /// <summary>
+        /// Dodaje pojazd, a następnie opcjonalnie tworzy dla niego pierwszą aktywną naprawę.
+        /// </summary>
+        /// <remarks>
+        /// Po zapisaniu naprawy metoda wywołuje <see cref="OnPojazdWybrany"/>, aby użytkownik
+        /// od razu trafił do ekranu prowadzenia zlecenia.
+        /// </remarks>
         [RelayCommand]
         private async Task NowyPojazd()
         {
@@ -124,6 +148,10 @@ namespace warsztat3000.ViewModels
                 OnPojazdWybrany?.Invoke(pojazd);
         }
 
+        /// <summary>
+        /// Otwiera formularz edycji danych wybranego pojazdu.
+        /// </summary>
+        /// <param name="pojazd">Pojazd wskazany na liście aktywnych napraw.</param>
         [RelayCommand]
         private async Task EdytujPojazd(Pojazd pojazd)
         {
@@ -138,6 +166,14 @@ namespace warsztat3000.ViewModels
             DaneZmienione?.Invoke();
         }
 
+        /// <summary>
+        /// Usuwa pojazd wraz z naprawami, zadaniami i pozycjami kosztorysu.
+        /// </summary>
+        /// <param name="pojazd">Pojazd przeznaczony do usunięcia.</param>
+        /// <remarks>
+        /// Jeżeli po usunięciu auta klient nie ma już żadnych pojazdów, usuwany jest również
+        /// rekord klienta. Dzięki temu baza demonstracyjna nie gromadzi osieroconych właścicieli.
+        /// </remarks>
         [RelayCommand]
         private async Task UsunPojazd(Pojazd pojazd)
         {

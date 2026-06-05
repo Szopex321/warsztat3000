@@ -11,6 +11,14 @@ using warsztat3000.Views;
 
 namespace warsztat3000.ViewModels
 {
+    /// <summary>
+    /// ViewModel zakładki historii napraw warsztatu.
+    /// </summary>
+    /// <remarks>
+    /// Widok historii buduje przekrój po pojazdach, a następnie pokazuje wizyty
+    /// wybranego auta. Dane są ładowane w trybie <c>AsNoTracking</c>, bo ekran
+    /// pełni funkcję podglądu i nie edytuje rekordów.
+    /// </remarks>
     public class HistoriaViewModel : ViewModelBase
     {
         public ObservableCollection<HistoriaPojazduViewModel> PojazdyZHistoria { get; }
@@ -46,6 +54,9 @@ namespace warsztat3000.ViewModels
             ? "Wybierz auto z listy"
             : $"{WybranyPojazd.Rejestracja} - {WybranyPojazd.MarkaModel}";
 
+        /// <summary>
+        /// Tworzy kolekcje historii i ładuje pierwszą wersję danych z bazy.
+        /// </summary>
         public HistoriaViewModel()
         {
             PojazdyZHistoria = new ObservableCollection<HistoriaPojazduViewModel>();
@@ -53,6 +64,13 @@ namespace warsztat3000.ViewModels
             WczytajHistorie();
         }
 
+        /// <summary>
+        /// Odświeża historię, zachowując poprzednio wybrany pojazd, jeśli nadal istnieje.
+        /// </summary>
+        /// <remarks>
+        /// Jest używane po zakończeniu naprawy, aby świeżo zamknięta wizyta pojawiła się
+        /// bez ponownego uruchamiania aplikacji.
+        /// </remarks>
         public void Odswiez()
         {
             var poprzedniPojazdId = WybranyPojazd?.PojazdId;
@@ -62,6 +80,14 @@ namespace warsztat3000.ViewModels
                 ?? PojazdyZHistoria.FirstOrDefault();
         }
 
+        /// <summary>
+        /// Ustawia w historii pojazd wskazany przez zakończoną naprawę.
+        /// </summary>
+        /// <param name="pojazdId">Identyfikator pojazdu, którego wizyty mają zostać pokazane.</param>
+        /// <remarks>
+        /// Jeśli pojazd nie zostanie znaleziony, widok wybiera pierwszy dostępny wpis,
+        /// aby prawa strona ekranu nie została w niespójnym stanie.
+        /// </remarks>
         public void PokazHistoriePojazdu(int pojazdId)
         {
             WybranyPojazd = PojazdyZHistoria.FirstOrDefault(p => p.PojazdId == pojazdId)
@@ -159,6 +185,13 @@ namespace warsztat3000.ViewModels
         }
     }
 
+    /// <summary>
+    /// Lekki model prezentacyjny pojedynczego pojazdu na liście historii.
+    /// </summary>
+    /// <remarks>
+    /// Klasa przechowuje już sformatowane teksty, ponieważ lista historii nie edytuje danych,
+    /// tylko pokazuje gotowy opis auta, właściciela i liczby wizyt.
+    /// </remarks>
     public class HistoriaPojazduViewModel
     {
         public int PojazdId { get; }
@@ -168,6 +201,12 @@ namespace warsztat3000.ViewModels
         public string LiczbaWizytOpis { get; }
         public string OstatniaWizytaOpis { get; }
 
+        /// <summary>
+        /// Tworzy wpis listy historii na podstawie pojazdu i zagregowanych informacji o wizytach.
+        /// </summary>
+        /// <param name="pojazd">Pojazd pobrany z bazy razem z właścicielem.</param>
+        /// <param name="liczbaWizyt">Liczba napraw zapisanych dla pojazdu.</param>
+        /// <param name="ostatniaWizyta">Data ostatniej wizyty wyliczona z napraw pojazdu.</param>
         public HistoriaPojazduViewModel(Pojazd pojazd, int liczbaWizyt, System.DateTime ostatniaWizyta)
         {
             PojazdId = pojazd.Id;
@@ -186,6 +225,13 @@ namespace warsztat3000.ViewModels
         }
     }
 
+    /// <summary>
+    /// Model prezentacyjny pojedynczej wizyty widocznej w szczegółach historii pojazdu.
+    /// </summary>
+    /// <remarks>
+    /// Obiekt przelicza dane naprawy na teksty wygodne dla UI: datę, status, mechanika,
+    /// listę czynności i łączną cenę kosztorysu.
+    /// </remarks>
     public class WizytaHistoriiViewModel
     {
         private readonly Naprawa _naprawa;
@@ -197,6 +243,14 @@ namespace warsztat3000.ViewModels
         public string CenaOpis { get; }
         public IAsyncRelayCommand PokazKosztorysCommand { get; }
 
+        /// <summary>
+        /// Buduje opis wizyty na podstawie encji naprawy.
+        /// </summary>
+        /// <param name="naprawa">Naprawa z załadowanym pojazdem, mechanikiem, zadaniami i kosztorysem.</param>
+        /// <remarks>
+        /// Data wizyty jest wybierana według priorytetu: rzeczywisty koniec, faktyczny koniec,
+        /// planowany koniec, a na końcu data rozpoczęcia.
+        /// </remarks>
         public WizytaHistoriiViewModel(Naprawa naprawa)
         {
             _naprawa = naprawa;

@@ -5,8 +5,28 @@ using warsztat3000.Models;
 
 namespace warsztat3000.Data
 {
+    /// <summary>
+    /// Przygotowuje lokalną bazę danych do pracy po starcie aplikacji.
+    /// </summary>
+    /// <remarks>
+    /// Klasa pełni dwie role: uzupełnia brakujące elementy schematu dla starszych baz
+    /// oraz zasila pustą bazę przykładowymi danymi, żeby aplikację dało się od razu
+    /// zaprezentować bez ręcznego wprowadzania klientów, pojazdów i napraw.
+    /// </remarks>
+    /// <seealso cref="WarsztatDbContext"/>
     public static class DatabaseSeeder
     {
+        /// <summary>
+        /// Doprowadza istniejącą bazę SQLite do schematu oczekiwanego przez aktualną wersję aplikacji.
+        /// </summary>
+        /// <param name="db">Kontekst bazy, na którym wykonywane są polecenia aktualizujące schemat.</param>
+        /// <remarks>
+        /// Projekt nie używa klasycznych migracji EF Core. Zamiast tego metoda dodaje brakujące
+        /// tabele, indeksy i kolumny w sposób odporny na ponowne uruchomienie aplikacji.
+        /// </remarks>
+        /// <exception cref="Microsoft.Data.Sqlite.SqliteException">
+        /// Może zostać zgłoszony przez SQLite, jeśli plik bazy jest zablokowany lub uszkodzony.
+        /// </exception>
         public static void UpewnijSieZeSchematAktualny(WarsztatDbContext db)
         {
             db.Database.ExecuteSqlRaw(
@@ -39,6 +59,21 @@ namespace warsztat3000.Data
             db.Database.ExecuteSqlRaw("UPDATE Pojazdy SET Marka = 'Volkswagen' WHERE Marka = 'VW'");
         }
 
+        /// <summary>
+        /// Wypełnia pustą bazę przykładowymi danymi potrzebnymi do demonstracji aplikacji.
+        /// </summary>
+        /// <param name="db">Kontekst bazy, do którego zostaną dodane dane startowe.</param>
+        /// <remarks>
+        /// Seeder kończy pracę, jeśli w bazie istnieje już co najmniej jeden mechanik.
+        /// Chroni to dane wprowadzone przez użytkownika przed nadpisaniem przy kolejnym starcie.
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// using var db = new WarsztatDbContext();
+        /// db.Database.EnsureCreated();
+        /// DatabaseSeeder.WypelnijBaze(db);
+        /// </code>
+        /// </example>
         public static void WypelnijBaze(WarsztatDbContext db)
         {
             WypelnijKatalogPojazdow(db);

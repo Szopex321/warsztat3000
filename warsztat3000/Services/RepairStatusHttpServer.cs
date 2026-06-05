@@ -9,6 +9,15 @@ using warsztat3000.Data;
 
 namespace warsztat3000.Services
 {
+    /// <summary>
+    /// Udostępnia lokalną stronę HTML ze statusem naprawy, używaną przez kody QR.
+    /// </summary>
+    /// <remarks>
+    /// Serwer działa tylko lokalnie na komputerze z uruchomioną aplikacją. Nie jest to publiczne API,
+    /// lecz prosty mechanizm demonstracyjny pozwalający klientowi zobaczyć postęp naprawy po otwarciu
+    /// linku z kodu QR.
+    /// </remarks>
+    /// <seealso cref="CreateStatusUrl(int, string)"/>
     public static class RepairStatusHttpServer
     {
         private const int DefaultPort = 5055;
@@ -17,18 +26,44 @@ namespace warsztat3000.Services
         private static CancellationTokenSource? _cancellation;
         private static int _currentPort = DefaultPort;
 
+        /// <summary>
+        /// Tworzy link statusu oparty wyłącznie na tokenie naprawy.
+        /// </summary>
+        /// <param name="token">Token zapisany przy naprawie i używany do odszukania rekordu.</param>
+        /// <returns>Adres lokalnej strony statusu naprawy.</returns>
+        /// <remarks>
+        /// Przed zwróceniem adresu metoda upewnia się, że lokalny serwer HTTP jest uruchomiony.
+        /// </remarks>
         public static string CreateStatusUrl(string token)
         {
             EnsureStarted();
             return $"http://localhost:{_currentPort}/status/{Uri.EscapeDataString(token)}";
         }
 
+        /// <summary>
+        /// Tworzy link statusu zawierający identyfikator naprawy oraz token QR.
+        /// </summary>
+        /// <param name="repairId">Identyfikator naprawy w lokalnej bazie SQLite.</param>
+        /// <param name="token">Token zabezpieczający link przed przypadkowym zgadywaniem adresów.</param>
+        /// <returns>Adres lokalnej strony statusu dla konkretnej naprawy.</returns>
+        /// <example>
+        /// <code>
+        /// var url = RepairStatusHttpServer.CreateStatusUrl(naprawa.Id, naprawa.QrToken);
+        /// </code>
+        /// </example>
         public static string CreateStatusUrl(int repairId, string token)
         {
             EnsureStarted();
             return $"http://localhost:{_currentPort}/status/{repairId}/{Uri.EscapeDataString(token)}";
         }
 
+        /// <summary>
+        /// Uruchamia lokalny serwer HTTP na pierwszym wolnym porcie z obsługiwanego zakresu.
+        /// </summary>
+        /// <remarks>
+        /// Domyślny port to 5055. Jeśli jest zajęty, aplikacja próbuje kolejnych portów do 5065.
+        /// Metoda jest idempotentna, więc ponowne wywołanie nie tworzy drugiego serwera.
+        /// </remarks>
         public static void Start()
         {
             if (_listener != null)
@@ -61,6 +96,13 @@ namespace warsztat3000.Services
             Start();
         }
 
+        /// <summary>
+        /// Zatrzymuje lokalny serwer statusu i zwalnia zajęty port.
+        /// </summary>
+        /// <remarks>
+        /// Metoda jest wywoływana przy zamykaniu aplikacji. Błędy zamykania są ignorowane,
+        /// ponieważ nie powinny blokować wyjścia z programu desktopowego.
+        /// </remarks>
         public static void Stop()
         {
             try

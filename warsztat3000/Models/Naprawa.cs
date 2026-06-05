@@ -5,6 +5,16 @@ using System.Text;
 
 namespace warsztat3000.Models
 {
+    /// <summary>
+    /// Reprezentuje pojedynczą wizytę naprawczą pojazdu w warsztacie.
+    /// </summary>
+    /// <remarks>
+    /// Encja łączy pojazd, mechanika prowadzącego, zadania, kosztorys i status.
+    /// Jest centralnym rekordem używanym zarówno przez ekran aktywnej naprawy,
+    /// historię warsztatu, jak i lokalną stronę statusu QR.
+    /// </remarks>
+    /// <seealso cref="ZadanieNaprawy"/>
+    /// <seealso cref="KosztorysPozycja"/>
     public class Naprawa
     {
         public int Id { get; set; }
@@ -32,7 +42,12 @@ namespace warsztat3000.Models
 
         public ICollection<ZadanieNaprawy> ZadaniaNaprawy { get; set; } = new List<ZadanieNaprawy>();
 
-        // (Jeśli planujesz używać kosztorysu tak samo, dodaj też to:)
+        /// <summary>
+        /// Pozycje kosztorysu przypisane do tej naprawy, w tym części oraz robocizna.
+        /// </summary>
+        /// <value>
+        /// Kolekcja używana do wyliczenia ceny wizyty i do przygotowania widoku kosztorysu.
+        /// </value>
         public ICollection<KosztorysPozycja> KosztorysPozycje { get; set; } = new List<KosztorysPozycja>();
     }
 }

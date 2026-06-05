@@ -13,6 +13,16 @@ using warsztat3000.Views;
 
 namespace warsztat3000.ViewModels
 {
+    /// <summary>
+    /// ViewModel głównego ekranu aktywnej naprawy.
+    /// </summary>
+    /// <remarks>
+    /// Klasa koordynuje najważniejszy proces biznesowy aplikacji: wybór pojazdu,
+    /// prowadzenie zadań, liczenie postępu, edycję kosztorysu, generowanie linku QR
+    /// oraz zakończenie naprawy z doliczeniem robocizny.
+    /// </remarks>
+    /// <seealso cref="PojazdyViewModel"/>
+    /// <seealso cref="HistoriaViewModel"/>
     public partial class NaprawaViewModel : ViewModelBase
     {
         private const decimal StawkaRoboczogodziny = 250m;
@@ -156,6 +166,13 @@ namespace warsztat3000.ViewModels
             set { _razemBrutto = value; OnPropertyChanged(nameof(RazemBrutto)); }
         }
 
+        /// <summary>
+        /// Tworzy ViewModel i ładuje pierwszą aktywną naprawę z lokalnej bazy.
+        /// </summary>
+        /// <remarks>
+        /// Konstruktor przygotowuje listę stref pojazdu oraz kolekcje widoczne w UI.
+        /// Jeśli w bazie nie ma aktywnej naprawy, ustawiany jest pusty stan ekranu.
+        /// </remarks>
         public NaprawaViewModel()
         {
             ListaZadan = new ObservableCollection<ZadanieViewModel>();
@@ -229,6 +246,13 @@ namespace warsztat3000.ViewModels
             RazemNetto = brutto - vatTotal;
         }
 
+        /// <summary>
+        /// Uruchamia przepływ dodania nowego pojazdu, a następnie utworzenia dla niego naprawy.
+        /// </summary>
+        /// <remarks>
+        /// Po zapisaniu danych pojazdu metoda ponownie wczytuje rekord z bazy,
+        /// aby dalsze okna pracowały na encji z prawidłowym identyfikatorem.
+        /// </remarks>
         [RelayCommand]
         public async Task NowyPojazd()
         {
@@ -272,6 +296,13 @@ namespace warsztat3000.ViewModels
             DaneZmienione?.Invoke();
         }
 
+        /// <summary>
+        /// Otwiera okno wydruku kosztorysu dla aktualnie wybranej naprawy.
+        /// </summary>
+        /// <remarks>
+        /// Metoda nic nie robi, jeśli nie ma aktywnej naprawy. Dzięki temu przyciski
+        /// mogą pozostać podłączone bez dodatkowej logiki bezpieczeństwa w widoku.
+        /// </remarks>
         [RelayCommand]
         public async Task WydrukujKosztorys()
         {
@@ -281,6 +312,13 @@ namespace warsztat3000.ViewModels
             await AppDialogService.ShowWindowAsync(new WydrukujKosztorysDialog(AktywnaNaprawa, ListaCzesci));
         }
 
+        /// <summary>
+        /// Generuje lub odczytuje token QR i pokazuje okno z linkiem statusu naprawy.
+        /// </summary>
+        /// <remarks>
+        /// Token jest tworzony tylko raz dla naprawy i zostaje zapisany w bazie.
+        /// Sam adres obsługuje <see cref="RepairStatusHttpServer"/>.
+        /// </remarks>
         [RelayCommand]
         public async Task PokazKodQr()
         {
@@ -309,6 +347,13 @@ namespace warsztat3000.ViewModels
             await AppDialogService.ShowWindowAsync(new PokazKodQrDialog(AktywnaNaprawa.QrToken, statusUrl));
         }
 
+        /// <summary>
+        /// Szuka pojazdu po rejestracji, VIN, marce, modelu albo danych właściciela.
+        /// </summary>
+        /// <remarks>
+        /// Po znalezieniu pojazdu metoda ładuje jego aktywną naprawę albo pusty stan
+        /// umożliwiający rozpoczęcie nowego zlecenia.
+        /// </remarks>
         [RelayCommand]
         public async Task SzukajPojazdu()
         {
@@ -340,6 +385,13 @@ namespace warsztat3000.ViewModels
             }
         }
 
+        /// <summary>
+        /// Otwiera edytor kosztorysu dla aktywnej naprawy.
+        /// </summary>
+        /// <remarks>
+        /// Po zamknięciu okna metoda ponownie ładuje pojazd, żeby odświeżyć sumy
+        /// kosztorysu widoczne na głównym ekranie.
+        /// </remarks>
         [RelayCommand]
         public async Task EdytujKosztorys()
         {
@@ -354,6 +406,13 @@ namespace warsztat3000.ViewModels
             DaneZmienione?.Invoke();
         }
 
+        /// <summary>
+        /// Oznacza naprawę jako rozpoczętą i zapisuje faktyczny czas startu.
+        /// </summary>
+        /// <remarks>
+        /// Operacja jest jednokrotna. Jeśli naprawa została już rozpoczęta,
+        /// metoda kończy pracę bez zmiany daty startu.
+        /// </remarks>
         [RelayCommand]
         public async Task RozpocznijNaprawe()
         {
@@ -386,6 +445,13 @@ namespace warsztat3000.ViewModels
             DaneZmienione?.Invoke();
         }
 
+        /// <summary>
+        /// Kończy aktywną naprawę, wylicza roboczogodziny i przenosi pojazd do historii.
+        /// </summary>
+        /// <remarks>
+        /// Przed zakończeniem wymagane jest rozpoczęcie naprawy oraz potwierdzenie użytkownika.
+        /// Po zapisie metoda dodaje lub aktualizuje pozycję robocizny w kosztorysie.
+        /// </remarks>
         [RelayCommand]
         public async Task ZakonczNaprawe()
         {
@@ -446,6 +512,13 @@ namespace warsztat3000.ViewModels
                 NaprawaZakonczona?.Invoke(zakonczonyPojazdId);
         }
 
+        /// <summary>
+        /// Dodaje nowe zadanie do aktywnej naprawy i przypisuje je do wybranej strefy pojazdu.
+        /// </summary>
+        /// <remarks>
+        /// Po dodaniu zadania przeliczany jest procent ukończenia oraz podsumowanie stref
+        /// widoczne na schemacie samochodu.
+        /// </remarks>
         [RelayCommand]
         public async Task DodajZadanieDoNaprawy()
         {
@@ -705,6 +778,15 @@ namespace warsztat3000.ViewModels
             OdswiezStrefy();
         }
 
+        /// <summary>
+        /// Ładuje aktywną naprawę wybranego pojazdu albo przygotowuje ekran do nowej naprawy.
+        /// </summary>
+        /// <param name="wybraneAuto">Pojazd wybrany z bazy lub znaleziony przez wyszukiwarkę.</param>
+        /// <remarks>
+        /// Metoda pobiera pełny graf danych potrzebny widokowi: klienta, mechanika, zadania
+        /// i pozycje kosztorysu. Jeżeli pojazd nie ma aktywnej naprawy, zachowuje dane auta,
+        /// ale czyści listę zadań i kosztów.
+        /// </remarks>
         public void ZaladujPojazd(Pojazd wybraneAuto)
         {
             using (var db = new WarsztatDbContext())
